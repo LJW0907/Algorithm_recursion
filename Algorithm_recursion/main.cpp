@@ -1,4 +1,5 @@
 #include <iostream>
+#include <math.h>
 using namespace std;
 
 int add(int n) { //recursion을 이용한 중첩 덧셈
@@ -27,6 +28,58 @@ int gcd(int m, int n) { //m과 n의 최대공약수 구하기
 		return m;
 	else
 		return gcd(n, m%n);
+}
+
+void printBinary(int n) { //십진수를 이진수로 변환 출력
+	if (n < 2)
+		cout << n;
+	else {
+		printBinary(n / 2);
+		cout << n % 2;
+	}
+}
+
+int search(int* data, int begin, int end, int target) { //recursion 순차 탐색 -응용 버전
+//이진 탐색과 유사한 방식이나, '정렬된 배열'이라는 이진 탐색의 조건을 충족하지 않으므로 아니다.
+	if (begin > end)
+		return -1;
+	else {
+		int middle = (begin + end) / 2;
+
+		if (data[middle] == target)
+			return middle;
+
+		int index = search(data, begin, middle - 1, target); //중점을 기준으로 앞쪽 탐색
+
+		if (index != -1)
+			return index;
+		else
+			return search(data, middle + 1, end, target); //못 찾았으면 중점 뒤쪽 탐색
+	}
+}
+
+int binarySearch(String[] items, String target, int begin, int end) { //문자열 크기 이진 비교
+	if (begin > end)
+		return  -1;
+	else {
+		int middle = (begin + end) / 2;
+		int compResult = target.compareTo(items[middle]);
+
+		if (compResult == 0)
+			return middle;
+
+		else if (compResult < 0) //target 문자열이 items[middle]보다 작았을 시
+			return binarySearch(items, target, begin, middle - 1);
+		else
+			return binarySearch(items, target, middle+1, end);
+	}
+}
+
+int findMax(int* data, int begin, int end) { //최댓값 찾기
+	if (begin == end)
+		return data[begin];
+	else
+		return Math.max(data[begin], findMax(data, begin + 1, end));
 }
 
 int main() {
